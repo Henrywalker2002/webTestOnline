@@ -1,0 +1,27 @@
+// use('webtest')
+
+// db.account.insertOne({username: 'henry', name:'Nguyễn Ngọc Hùng', password: 'hungnguyen0304', type: 1, email: 'davisdavis448@gmail.com', avatar : null})
+// db.account.insertOne({username: 'henrywalker', name:'Nguyễn Ngọc Hùng', password: 'hungnguyen0304', type: 0, email: 'davisdavis448@gmail.com', avatar : null})
+// db.account.find()
+
+// db.teacher.insertOne({username: 'henry', profile: 'teach some subject like: math, english, physical, computer, etc'})
+// db.student.insertOne({username: 'henrywalker', class: 13})
+
+// tempid = ObjectId()
+
+// db.subject.insertOne({"_id": tempid, name: 'basic english', teacherId: 'henry'})
+
+// db.question.insertOne({content: 'The word “collective” in the third paragraph is closest in meaning to _______.', type: 0, level: 1, suggestion: null, teacherId: 'henry', subjectId: tempid, ans : [{content: 'letter', flag : true},
+// {content: 'temp', flag : false},
+// {content: 'test', flag : false},
+// {content: 'for test', flag : false}]})
+
+// db.list.insertOne({quesId: [ObjectId('63c00e5ee102850d07394e3e')], teacherId: 'henry', name: 'list1'})
+
+// db.enroll.insertOne({subjectId: ObjectId('63c00e5de102850d07394e3d'), studentId: 'henrywalker'})
+
+// db.report.insertOne({quesId: ObjectId('63c00e5ee102850d07394e3e'), studentId : 'henrywalker'})
+
+// db.test.insertOne({name: 'test1', description : 'basic', numQues : 1, maxTime : 45, subjectId: ObjectId('63c00e5de102850d07394e3d'), quesId: [ObjectId('63c00e5ee102850d07394e3e')]})
+
+// db.doTest.insertOne({no: 1, testId: ObjectId('63c00fdf54a0467dc5666681'), studentId : 'henrywalker', 'timeBegin': null, timeEnd: null, grade : 10, selectAns: [{quesId : ObjectId('63c00e5ee102850d07394e3e'), ansId : 1}]})
