@@ -1,6 +1,5 @@
-package com.example.webtest;
+package com.controller;
 
-import com.controller.connectDb;
 import com.model.Subject;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.mongodb.client.MongoDatabase;

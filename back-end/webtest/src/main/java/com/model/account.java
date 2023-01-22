@@ -1,36 +1,40 @@
 package com.model;
 
-import java.util.Objects;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
-public class account {
-    public String id, username, name, password, email, avatar;
-    public Boolean type;
+public class Account {
+    public String username, name, password, email, avatar, profile;
+    public int type;// type : 0 is student, 1 is teacher and 2 is admin
+    @BsonProperty(value = "class")
+    int class_; 
 
-    account() {}
-    account(String id , String username, String name, String password, String email, String avatar, Boolean type) {
-        this.id = id;
+    public Account() {}
+    public Account(String username, String name, String password, String email, String avatar, int type, String profile) {
         this.username = username;
         this.type = type;
         this.password = password;
         this.email = email;
         this.name = name;
         this.avatar = avatar;
+        this.profile = profile;
     }
 
-    // account(JSONObject rows) {
-    //     this.id = rows.get("id").get("_id");
+    public Account(String username, String name, String password, String email, String avatar, int type, int class_) {
+        this.username = username;
+        this.type = type;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+        this.avatar = avatar;
+        this.class_ = class_;
+    }
+    
+    public void setClass_(int class_) {
+        this.class_ = class_;
+    }
 
-    // }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof account)){
-            return false;
-        }
-        account acc = (account) o;
-        return Objects.equals(this.id, acc.id);
+    public int getClass_() {
+        return this.class_;
     }
 }
+

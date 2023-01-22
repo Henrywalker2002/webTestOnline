@@ -18,7 +18,7 @@ public class connectDb {
     private  String uri = "mongodb+srv://henry:hungnguyen0304@cluster0.zz9j3qe.mongodb.net/?retryWrites=true&w=majority";
     private CodecRegistry pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
     fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-    
+
     public connectDb() {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         Logger rootLogger = loggerContext.getLogger("org.mongodb.driver");
