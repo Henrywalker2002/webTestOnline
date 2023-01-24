@@ -114,7 +114,7 @@ public class subjectController {
         }
 
         Subject oldSub = iterator.first();
-        if (oldSub.name != name || oldSub.teacherId != teacherId) {
+        if (!oldSub.name.equals(name) || !oldSub.teacherId.equals(teacherId)) {
             BasicDBObject andQuery = new BasicDBObject();
             List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
             obj.add(new BasicDBObject("teacherId", teacherId));

@@ -28,7 +28,6 @@ public class questionController {
     MongoDatabase db = conn.gDatabase();
     MongoCollection <Quesion> quesCollection = db.getCollection("question", Quesion.class);
     MongoCollection <Document> quesDoc = db.getCollection("question");
-    MongoCollection <Document> listQuesDoc = db.getCollection("listQues");
 
     @RequestMapping(value= "/question", method = RequestMethod.POST)
     public ResponseEntity<Document> addQuestion(@RequestBody JsonNode json) {
@@ -134,4 +133,72 @@ public class questionController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
     
+    @RequestMapping(value = "/question", method = RequestMethod.PUT)
+    public ResponseEntity<Document> updateQues(@RequestBody JsonNode json) {
+        String content, suggestion, id;
+        int level, type;
+        List<Document> ans = new ArrayList<Document>();
+        Document res = new Document();
+        try {
+            content = json.get("content").asText();
+            suggestion = json.get("suggestion").asText();
+            id = json.get("id").asText();
+            level = json.get("level").asInt();
+            type = json.get("type").asInt();
+            ArrayNode arrayNode = (ArrayNode) json.get("ans");
+            Iterator <JsonNode> iterator = arrayNode.iterator();
+            while(iterator.hasNext()) {
+                var temp = iterator.next();
+                Document ansNode = new Document().append("content", temp.get("content").asText())
+                                                .append("flag", temp.get("flag").asBoolean());
+                ans.add(ansNode);
+            }
+        }
+        catch (Exception e) {
+            res.append("message", "wrong json")
+                .append("result", "fail");
+            return new ResponseEntity<Document>(res, HttpStatus.OK);
+        }
+
+        var count = 0;
+        var it = ans.iterator();
+        while(it.hasNext()) {
+            if (it.next().getBoolean("flag")) {
+                count += 1;
+            }
+        }
+
+        if (type == 0) {
+            if (count == 0) {
+                res.append("message", "no answer correct in your question")
+                    .append("result", "fail");
+                return new ResponseEntity<Document>(res, HttpStatus.OK);
+            }
+        }
+        else {
+            if (ans.size() != count) {
+                res.append("message", "all the answer must be correct")
+                    .append("result", "fail");
+                return new ResponseEntity<Document>(res, HttpStatus.OK);
+            }
+        }
+
+        Document updateQuery = new Document()
+            .append("content" , content)
+            .append("suggestion" , suggestion)
+            .append("level", level)
+            .append("type", type)
+            .append("ans", ans);
+        
+        Document findQuery = new Document("_id", new ObjectId(id));
+        var temp = this.quesDoc.updateOne(findQuery, new Document("$set", updateQuery));
+        if (temp.getMatchedCount() == 0) {
+            res.append("result", "fail")
+                .append("message", "no question found");
+            return new ResponseEntity<Document>(res, HttpStatus.OK);
+        }
+        res.append("result", "ok")
+            .append("message", "success");
+        return new ResponseEntity<Document>(res, HttpStatus.OK);
+    }
 }
