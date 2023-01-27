@@ -56,11 +56,14 @@ public class listQuesController {
 
         var temp = this.listQuesDoc.find(andQuery);
         if (temp.first() != null) {
-            var rows = temp.first().get("quesId");
-            List <ObjectId> array = (ArrayList<ObjectId>) rows;
-            for (int i = 0; i < lstQues.size(); i ++) {
-                if (array.contains(lstQues.get(i))) {
-                    lstQues.remove(i);
+            // var rows = temp.first().get("quesId");
+            // List <ObjectId> array = (ArrayList<ObjectId>) rows;
+            List<ObjectId> array = temp.first().getList("quesId", ObjectId.class);
+            if (array != null) {
+                for (int i = 0; i < lstQues.size(); i ++) {
+                    if (array.contains(lstQues.get(i))) {
+                        lstQues.remove(i);
+                    }
                 }
             }
             this.listQuesDoc.updateOne(andQuery, Updates.addEachToSet("quesId", lstQues));
@@ -88,8 +91,9 @@ public class listQuesController {
             this.listQuesDoc.insertOne(doc);
             temp = this.listQuesDoc.find(doc);
         }
-        var lstQues = temp.first().get("quesId");
-        List <ObjectId> array = (ArrayList<ObjectId>) lstQues;
+        // var lstQues = temp.first().get("quesId");
+        List <ObjectId> array = temp.first().getList("quesId", ObjectId.class);
+        // List <ObjectId> array = (ArrayList<ObjectId>) lstQues;
         List<String> templst = new ArrayList<>();
         if (array != null) {
             array.forEach((n) -> templst.add(n.toString()));

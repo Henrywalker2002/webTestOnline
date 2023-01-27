@@ -81,7 +81,7 @@ public class testController {
             .append("message", new Document("id", id));
         return new ResponseEntity<Document>(res, HttpStatus.OK);
     }
-
+    
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public ResponseEntity<Document> getTest(@RequestParam int id) {
         var queryRes = this.testDoc.find(Filters.eq("id", id));
@@ -92,19 +92,8 @@ public class testController {
             return new ResponseEntity<Document>(res, HttpStatus.OK);
         }
         Document test = queryRes.first();
-        var rows = test.get("quesId");
-        List <ObjectId> lstQuesId = (ArrayList<ObjectId>) rows;
-
-        List<Document> lstQues = new ArrayList<>();
-        lstQuesId.forEach((quesId) -> {
-            Document temp = this.quesDoc.find(Filters.eq("_id", quesId)).first();
-            temp.remove("_id");
-            temp.append("id", quesId.toString());
-            lstQues.add(temp);
-        });
-        test.remove("quesId");
-        test.remove("_id");
-        test.append("question", lstQues);
+        Support sp = new Support();
+        test = sp.getTest(test, quesDoc);
         res.append("result", "ok")
             .append("message", test);
         return new ResponseEntity<Document>(res, HttpStatus.OK);

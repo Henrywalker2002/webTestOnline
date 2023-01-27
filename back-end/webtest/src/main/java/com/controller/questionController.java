@@ -2,7 +2,6 @@ package com.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.model.Quesion;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class questionController {
     connectDb conn = new connectDb();
     MongoDatabase db = conn.gDatabase();
-    MongoCollection <Quesion> quesCollection = db.getCollection("question", Quesion.class);
     MongoCollection <Document> quesDoc = db.getCollection("question");
 
     @RequestMapping(value= "/question", method = RequestMethod.POST)
