@@ -254,4 +254,20 @@ public class doTest {
 
         return new ResponseEntity<Document>(res, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/getReview", method = RequestMethod.GET)
+    public ResponseEntity<Document> getReview(@RequestParam int testId, @RequestParam String studentId) {
+        Document query = new Document("testId", testId).append("studentId", studentId);
+        var cursor = this.doTestDoc.find(query).iterator();
+        List<Document> allTest = new ArrayList<>();
+        while(cursor.hasNext()) {
+            var temp = cursor.next();
+            temp.append("id", temp.getObjectId("_id").toString());
+            temp.remove("_id");
+            temp.remove("selectAns");
+            allTest.add(temp);
+        }
+        Document res = new Document("result", "ok").append("message", allTest);
+        return new ResponseEntity<Document>(res, HttpStatus.OK);
+    }
 }
